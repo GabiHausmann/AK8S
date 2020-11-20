@@ -1,2 +1,10 @@
 ---
 # vars file for create_instances
+sec_group_name: ssh
+sec_group_description: allow ssh connection
+vpc_id: vpc-09331db34bba11ac5
+region: sa-east-1
+instace_type: t2.micro
+image: ami-079b1541b6dc958ca
+keypar: aws_ghausmann
+count: 3
