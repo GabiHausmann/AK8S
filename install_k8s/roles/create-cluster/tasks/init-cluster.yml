@@ -1,0 +1,32 @@
+- name: 'Removendo cluster existente'
+  command:
+    kubeadm reset --force
+  register: kubeadm_reset
+
+- name: 'Inicializando cluster K8S'
+  command:
+    kubeadm init
+    register: kubeadm_init
+
+- name: 'Criando o diretório .kube'
+  file:
+    path: ~/.kube
+    state: directory
+
+- name: 'Linkando arquivo de configurações'
+  file:
+    src: /etc/kubernetes/admin.conf
+    dst: ~/.kube/config
+  state: link
+
+- name: 'Configurando o pod network Weavenet'
+  shell: kubectl apply -f {{ default_url_weavenet }}
+  register: weavenet_result
+
+- name: 'Pegando token'
+  shell: kubeadm token list | cut -d '' -f1 | sed -n '2p'
+  register: k8s_token
+
+- name: CA Hash
+  shell: 
+
