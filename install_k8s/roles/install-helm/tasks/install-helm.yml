@@ -1,0 +1,21 @@
+- name: 'Getting HELM3 Download URL'
+  get_url:
+    url: "{{ helm_download_url }}"
+    dest: /tmp/get_helm.sh
+    mode: 0755
+  ignore_erros: true
+  register: download_helm
+
+- name: 'Installing HELM3'
+  shell:
+    # Executa script no shell
+    /tmp/get_helm.sh
+  when:
+    # Executa apenas quando o download funcionar
+    - download_helm.failed|bool == false
+  register: install_helm
+
+- name: 
+  debug:
+    msg: var=install_helm
+
